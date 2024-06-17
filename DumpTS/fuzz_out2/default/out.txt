@@ -1,0 +1,82 @@
+Usage: DumpTS.exe [SourceMediaFile] [OPTION]...
+	--output		The output dumped file path
+	--pid			The PID of dumped TS stream, or the packet_id of dumped MMT asset
+	--trackid		The track id of dumped ISOBMFF
+	--destpid		The PID of source stream will be placed with this PID
+	--srcfmt		The source format, including: 
+					ts: standard transport stream
+					m2ts: transport stream with 4 bytes of extra arrive clock time and so on
+					mp4: ISO-BMFF media file
+					mkv: Matroska based media file, for example, .mkv, .mka, .mk3d and .webm files
+					aiff: Apple AIFF, or AIFC file
+					mmt: MPEG Media Transport stream
+					huffman_codebook: Huffman-codebook text file including VLC tables
+					spectrum_huffman_codebook_1~11: Spectrum-Huffman-codebook text file including VLC tables
+				(*)If it is not specified, decide it by its file extension or find the sync-word to decide it
+	--CID			the context ID of a header compressed IP packet in MMT/TLV stream
+	--outputfmt		The destination dumped format, including: ts, m2ts, pes, es, binary_search_table and sourcecode
+	--showpts		Print the pts of every elementary stream packet
+	--stream_id		The stream_id in PES header of dumped stream
+	--sub_stream_id		The sub_stream_id in the private data of pack of dumped stream
+	--stream_id_extension	The stream_id_extension in PES header of dumped stream
+	--MPUseqno		the MPU sequence number of MMT stream
+	--PKTseqno		the packet sequence number of MMT stream
+	--MFU			Dumping the each MFU as a separate file, filename will be {MPUseqno}_xxxx.{assert_type}
+	--removebox		The removed box type and its children boxes in MP4
+	--boxtype		the box type FOURCC
+	--showinfo		Print the media information of summary, layout or elementary stream in TS/ISOBMFF/Matroska file
+	--showpack		Print the syntax details for every pack
+	--showIPv4pack		Print the IP-v4 pack syntax details
+	--showIPv6pack		Print the IP-v6 pack syntax details
+	--showHCIPpack		Print Header-Compressed IP packet syntax details
+	--showTCSpack		Print the specified or all stream packet, only support TLV/MMT
+	--showSIT		Print the SIT information for DTV stream
+	--showPMT		Print the PMT information in TS stream
+	--showPAT		Print the PAT information in TS stream
+	--showMPT		Print the MPT information in MMT/TLV stream
+	--showPLT		Print the PLT information in MMT/TLV stream
+	--showCAT		Print the CAT information in MMT/TLV stream
+	--showEIT		Print the MH-EIT information in MMT/TLV stream
+	--showPCR		Print the PCR clock information in TS stream
+	--showPCRDiagram	Print the PCR and its related PTS, DTS diagram, export PCR, ATC, PTS/DTS into csv file
+	--showNTP		Print the NTP information in MMT/TLV stream
+	--showMSE		Print the syntax-view of media syntax element in the raw encoded stream or media file
+	--showMSEHex		Print the hex-view of media syntax element(s) in the raw encoded stream or media file
+	--diffATC		Show the ATC diff which is greater than the specified threshold
+	--diffATCDTS		Show the ATC and DTS diff at the payload unit start point between 2 specified PIDs
+	--showNU		Show the access-unit, nal-unit, sei-message and sei_payload tree of AVC/HEVC/VVC stream
+	--showOBU		Show the temporal-unit, frame-unit and open-bitstream-unit hierarchy of AV1 bitstream
+	--listMMTPpacket	List the specified MMTP packets
+	--listMMTPpayload	List the specified MMTP payloads
+	--listMPUtime		List MPU presentation time and its pts/dts offset
+	--listMSE		List the media syntax element hierarchy layout in the raw encoded stream or media file
+	--showVPS		Show the VPS syntax of HEVC/VVC stream
+	--showSPS		Show the SPS syntax of AVC/HEVC/VVC stream
+	--showPPS		Show the PPS syntax of AVC/HEVC/VVC stream
+	--showSeqHdr		Show the AV1 Sequence-Header-OBU syntax or MPEG2-Video sequence header
+	--showHRD		Show the Hypothetical reference decoder parameters of AVC/HEVC/VVC stream
+	--runHRD		Run the Hypothetical reference decoder verifier of AVC/HEVC/VVC stream
+	--showStreamMuxConfig	Show the StreamMuxConfig in MPEG4 AAC LOAS/LATM stream
+	--crc			Specify the crc type, if crc type is not specified, list all crc types
+	--listcrc		List all crc types and exit
+	--listmp4box		Show the ISOBMFF box-table defined in ISO14496-12/15 and QTFF and exit
+	--listmkvebml		Show EBML elements defined in Matroska specification and exit
+	--listMMTPpacketid	Show Assignment of Packet ID of MMTP transmitting message and data
+	--listMMTSImsg		Show Assignment of message identifier of MMT-SI
+	--listMMTSItable	Show Assignment of identifier of table of MMT-SI
+	--listMMTSIdesc		Show Assignment of descriptor tag of MMT-SI
+	--dashinitmp4		Specify the DASH initialization mp4 file to process m4s
+	--VLCTypes		Specify the number value literal formats, a: auto; h: hex; d: dec; o: oct; b: bin, for example, "aah"
+	--video			The current dumped stream is a video stream
+	--start			Specify where to start dumping the stream, for ts, in the unit of TS pack.
+	--end			Specify where to stop dumping the stream, for ts, in the unit of TS pack.
+	--top			Specify how many records are displayed.
+	--verbose		Print the intermediate information during media processing
+	--help			Print this message
+Examples:
+	DumpTS 00001.m2ts --output=00001.hevc --pid=0x1011 --srcfmt=m2ts --outputfmt=es --showpts
+	DumpTS test.ts --output=00001.m2ts --pid=0x100 --destpid=0x1011 --srcfmt=ts --outputfmt=m2ts
+	DumpTS test.mp4 --output=test1.mp4 --removebox=unkn
+	DumpTS test.mp4 --output=test.hevc --trackid=0
+	DumpTS codebook.txt --srcfmt=huffman_codebook --showinfo
+	DumpTS codebook.txt --srcfmt=huffman_codebook --outputfmt=binary_search_table
