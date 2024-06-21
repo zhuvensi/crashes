@@ -1,0 +1,9 @@
+# environment variables:
+AFL_CUSTOM_INFO_PROGRAM=/home/DumpTS/bin/linux/DumpTS
+AFL_CUSTOM_INFO_PROGRAM_ARGV=@@ --output=test1.mp4 --pid=0x1011 --showpts --destpid=0x1011
+AFL_CUSTOM_INFO_OUT=/home/DumpTS/fuzz_out3/default
+AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1
+AFL_TRY_AFFINITY=1
+AFL_SKIP_CPUFREQ=1
+# command line:
+'afl-fuzz' '-m' 'none' '-i' '/home/DumpTS/fuzz_in_min' '-o' '/home/DumpTS/fuzz_out3' '--' '/home/DumpTS/bin/linux/DumpTS' '@@' '--output=test1.mp4' '--pid=0x1011' '--showpts' '--destpid=0x1011'
